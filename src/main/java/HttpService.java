@@ -3,12 +3,11 @@ import java.net.URI;
 import java.net.http.HttpClient;
 import java.net.http.HttpRequest;
 import java.net.http.HttpResponse;
+import java.util.Optional;
 
 import static java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpService {
-    //TODO auslagern in properties File?
-    private static final String API_KEY = "<key>";
     HttpClient client = HttpClient.newHttpClient();
 
     public String readForecast() throws IOException, InterruptedException {
@@ -22,6 +21,14 @@ public class HttpService {
     }
 
     private URI createUri(Location location) {
-        return URI.create("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.latitude + "&lon=" + location.longitude + "cnt=1&appid=" + API_KEY);
+        String openweatherApiKey = Optional.ofNullable(System.getenv("OPENWEATHER_API_KEY"))
+                                           .orElseThrow(ApiKeyNotFoundException::new);
+        return URI.create("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.latitude + "&lon=" + location.longitude + "cnt=1&appid=" + openweatherApiKey);
+    }
+
+    public class ApiKeyNotFoundException extends RuntimeException {
+        ApiKeyNotFoundException() {
+            super("API Key not found in the System Environment Variable OPENWEATHER_API_KEY");
+        }
     }
 }
