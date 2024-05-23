@@ -1,3 +1,4 @@
+import model.Coord;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 
@@ -7,7 +8,7 @@ class HttpServiceIntegrationTest {
 
     @Test
     void shouldGetHttpResponse() throws Exception {
-        String httpResponse = service.readForecast();
+        String httpResponse = service.readForecast(Coord.NUERNBERG);
         Assertions.assertThat(httpResponse).isNotEmpty();
     }
 }
