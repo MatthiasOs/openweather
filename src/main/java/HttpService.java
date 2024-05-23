@@ -10,7 +10,7 @@ import java.util.Optional;
 import static java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpService {
-    HttpClient client = HttpClient.newHttpClient();
+    private final HttpClient client = HttpClient.newHttpClient();
 
     public String readForecast(Coord location) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder(createUri(location)).build();
@@ -22,14 +22,17 @@ public class HttpService {
     }
 
     /**
-     * api.openweathermap.org/data/2.5/forecast/daily?lat={lat}&lon={lon}&cnt={cnt}&appid={API key}
+     * https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
      *
-     * @see <a href="https://openweathermap.org/forecast16">OpenWeather</a>
+     * @see <a href="https://openweathermap.org/current">OpenWeather</a>
      */
     private URI createUri(Coord location) {
         String openweatherApiKey = Optional.ofNullable(System.getenv("OPENWEATHER_API_KEY"))
                                            .orElseThrow(ApiKeyNotFoundException::new);
-        return URI.create("http://api.openweathermap.org/data/2.5/forecast/daily?lat=" + location.getLatitude() + "&lon=" + location.getLongitude() + "cnt=1&appid=" + openweatherApiKey);
+        return URI.create("http://api.openweathermap.org/data/2.5/weather?" +
+                "lat=" + location.getLatitude() +
+                "&lon=" + location.getLongitude() +
+                "&appid=" + openweatherApiKey);
     }
 
     public static class ApiKeyNotFoundException extends RuntimeException {

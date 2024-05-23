@@ -1,14 +1,22 @@
 import model.Coord;
-import org.assertj.core.api.Assertions;
+import model.CurrentWeather;
 import org.junit.jupiter.api.Test;
+
+import static org.assertj.core.api.Assertions.assertThat;
 
 class HttpServiceIntegrationTest {
 
     HttpService service = new HttpService();
+    WeatherConverter converter = new WeatherConverter();
 
     @Test
-    void shouldGetHttpResponse() throws Exception {
+    void shouldConvertHttpResponseToJson() throws Exception {
         String httpResponse = service.readForecast(Coord.NUERNBERG);
-        Assertions.assertThat(httpResponse).isNotEmpty();
+        assertThat(httpResponse).isNotEmpty();
+        CurrentWeather currentWeather = converter.convert(httpResponse);
+        assertThat(currentWeather)
+                .hasNoNullFieldsOrProperties()
+                .extracting("cityName", "coord.latitude", "coord.longitude")
+                .containsExactly("Nuremberg", Coord.NUERNBERG.getLatitude(), Coord.NUERNBERG.getLongitude());
     }
 }

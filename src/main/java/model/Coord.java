@@ -3,14 +3,14 @@ package model;
 import com.google.gson.annotations.SerializedName;
 
 public class Coord {
-    public static final Coord NUERNBERG = new Coord(49.45421000, 11.07752000);
+    public static final Coord NUERNBERG = new Coord(49.4541, 11.0768);
 
-    @SerializedName("lon")
-    Double longitude;
     @SerializedName("lat")
     Double latitude;
+    @SerializedName("lon")
+    Double longitude;
 
-    Coord(Double longitude, Double latitude) {
+    Coord(Double latitude, Double longitude) {
         this.latitude = latitude;
         this.longitude = longitude;
     }

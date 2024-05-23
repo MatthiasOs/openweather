@@ -1,10 +1,10 @@
 import com.google.gson.Gson;
-import model.WeatherForecast;
+import model.CurrentWeather;
 
 public class WeatherConverter {
     private final Gson gson = new Gson();
 
-    public WeatherForecast convert(String json) {
-        return gson.fromJson(json, WeatherForecast.class);
+    public CurrentWeather convert(String json) {
+        return gson.fromJson(json, CurrentWeather.class);
     }
 }
