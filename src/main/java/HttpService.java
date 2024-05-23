@@ -8,7 +8,7 @@ import static java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpService {
     //TODO auslagern in properties File?
-    private static final String API_KEY = "";
+    private static final String API_KEY = "<key>";
     HttpClient client = HttpClient.newHttpClient();
 
     public String readForecast() throws IOException, InterruptedException {
