@@ -17,6 +17,6 @@ class HttpServiceIntegrationTest {
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties()
                 .extracting("cityName", "coord.latitude", "coord.longitude")
-                .containsExactly("Nuremberg", Coord.NUERNBERG.getLatitude(), Coord.NUERNBERG.getLongitude());
+                .containsExactly("Nuremberg", Coord.NUERNBERG.latitude(), Coord.NUERNBERG.longitude());
     }
 }

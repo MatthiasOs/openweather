@@ -22,7 +22,7 @@ public class HttpService {
     }
 
     /**
-     * https://api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
+     * api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
      *
      * @see <a href="https://openweathermap.org/current">OpenWeather</a>
      */
@@ -30,8 +30,8 @@ public class HttpService {
         String openweatherApiKey = Optional.ofNullable(System.getenv("OPENWEATHER_API_KEY"))
                                            .orElseThrow(ApiKeyNotFoundException::new);
         return URI.create("http://api.openweathermap.org/data/2.5/weather?" +
-                "lat=" + location.getLatitude() +
-                "&lon=" + location.getLongitude() +
+                "lat=" + location.latitude() +
+                "&lon=" + location.longitude() +
                 "&appid=" + openweatherApiKey);
     }
 
