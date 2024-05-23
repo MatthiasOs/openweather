@@ -1,3 +1,3 @@
 # openweather
 
-https://openweathermap.org/forecast16
+https://openweathermap.org/current
