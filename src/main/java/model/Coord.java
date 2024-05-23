@@ -1,7 +1,10 @@
 package model;
 
+import com.google.gson.annotations.SerializedName;
+
 public class Coord {
-    //TODO Change name to "longitude" and "latitude"
-    double lon;
-    double lat;
+    @SerializedName("lon")
+    Double longitude;
+    @SerializedName("lat")
+    Double latitude;
 }
