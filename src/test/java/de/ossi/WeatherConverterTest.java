@@ -1,13 +1,16 @@
 package de.ossi;
 
 import de.ossi.model.CurrentWeather;
+import de.ossi.model.Weather;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.time.LocalDateTime;
 
 import static org.assertj.core.api.Assertions.assertThat;
+import static org.assertj.core.api.InstanceOfAssertFactories.list;
 
 class WeatherConverterTest {
     private final WeatherConverter converter = new WeatherConverter();
@@ -19,11 +22,45 @@ class WeatherConverterTest {
     }
 
     @Test
-    void shouldConvertFromJsonExample() {
+    void shouldHaveNoNullFieldsAfterConvertingFromJsonExample() {
         CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
         assertThat(currentWeather)
-                .hasNoNullFieldsOrProperties()
+                .hasNoNullFieldsOrProperties();
+    }
+
+    @Test
+    void shouldConvertWindFromJsonExample() {
+        CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
+        assertThat(currentWeather)
                 .extracting("wind.speed", "wind.degrees", "wind.gust")
                 .containsExactly(0.62, 349.0, 1.18);
+    }
+
+    @Test
+    void shouldConvertTempFromJsonExample() {
+        CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
+        assertThat(currentWeather)
+                .extracting("main.temp", "main.feelsLike")
+                .containsExactly(25.33, 25.59);
+    }
+
+    @Test
+    void shouldConvertSysFromJsonExample() {
+        LocalDateTime sunrise = LocalDateTime.of(2022, 8, 30, 6, 36, 27);
+        LocalDateTime sunset = LocalDateTime.of(2022, 8, 30, 19, 57, 28);
+        CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
+        assertThat(currentWeather)
+                .extracting("sys.country", "sys.sunrise", "sys.sunset")
+                .containsExactly("IT", sunrise, sunset);
+    }
+
+    @Test
+    void shouldConvertWeathersFromJsonExample() {
+        CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
+        assertThat(currentWeather)
+                .extracting(CurrentWeather::weathers, list(Weather.class))
+                .singleElement()
+                .extracting(Weather::main, Weather::description)
+                .containsExactly("Rain", "moderate rain");
     }
 }
