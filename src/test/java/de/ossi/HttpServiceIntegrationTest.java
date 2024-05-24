@@ -11,6 +11,10 @@ import org.junit.jupiter.api.Test;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 
+/**
+ * This test queries the REAL OpenWeather API.
+ * Therefor an API Key is required, see the ReadMe for more infos.
+ */
 class HttpServiceIntegrationTest {
     HttpService service = Guice.createInjector(new BasicModule()).getInstance(HttpService.class);
 

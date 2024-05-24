@@ -15,6 +15,7 @@ import static java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpService {
 
+    public static final String OPENWEATHER_ENV = "OPENWEATHER_API_KEY";
     private final HttpClient client;
     private final WeatherConverter converter;
 
@@ -39,7 +40,7 @@ public class HttpService {
      * @see <a href="https://openweathermap.org/current">OpenWeather</a>
      */
     private URI createUri(Coord location) {
-        String openweatherApiKey = Optional.ofNullable(System.getenv("OPENWEATHER_API_KEY"))
+        String openweatherApiKey = Optional.ofNullable(System.getenv(OPENWEATHER_ENV))
                                            .orElseThrow(ApiKeyNotFoundException::new);
         return URI.create("http://api.openweathermap.org/data/2.5/weather?" +
                 "lat=" + location.latitude() +
