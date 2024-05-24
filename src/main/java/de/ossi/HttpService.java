@@ -1,4 +1,6 @@
-import model.Coord;
+package de.ossi;
+
+import com.google.inject.Inject;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,11 +15,13 @@ public class HttpService {
 
     private final HttpClient client;
 
+    @Inject
     public HttpService(HttpClient client) {
         this.client = client;
     }
 
 
+    //TODO Should Return List Converted POJOs
     public String readCurrentWeather(Coord location) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder(createUri(location)).build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());

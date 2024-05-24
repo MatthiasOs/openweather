@@ -1,4 +1,5 @@
-import model.CurrentWeather;
+package de.ossi;
+
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Test;
 

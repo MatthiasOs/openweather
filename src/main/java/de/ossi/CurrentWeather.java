@@ -1,4 +1,4 @@
-package model;
+package de.ossi;
 
 import com.google.gson.annotations.SerializedName;
 
