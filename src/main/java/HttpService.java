@@ -10,9 +10,15 @@ import java.util.Optional;
 import static java.net.http.HttpResponse.BodyHandlers;
 
 public class HttpService {
-    private final HttpClient client = HttpClient.newHttpClient();
 
-    public String readForecast(Coord location) throws IOException, InterruptedException {
+    private final HttpClient client;
+
+    public HttpService(HttpClient client) {
+        this.client = client;
+    }
+
+
+    public String readCurrentWeather(Coord location) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder(createUri(location)).build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         if (response.statusCode() != 200) {
