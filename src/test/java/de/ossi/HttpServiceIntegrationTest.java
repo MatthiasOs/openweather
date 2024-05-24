@@ -1,8 +1,9 @@
 package de.ossi;
 
 import com.google.inject.Guice;
-import com.google.inject.Injector;
 import de.ossi.injection.BasicModule;
+import de.ossi.model.Coord;
+import de.ossi.model.CurrentWeather;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
@@ -11,15 +12,11 @@ import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 
 class HttpServiceIntegrationTest {
-    Injector injector = Guice.createInjector(new BasicModule());
-    WeatherConverter converter = injector.getInstance(WeatherConverter.class);
-    HttpService service = injector.getInstance(HttpService.class);
+    HttpService service = Guice.createInjector(new BasicModule()).getInstance(HttpService.class);
 
     @Test
     void shouldConvertHttpResponseToJson() throws Exception {
-        String httpResponse = service.readCurrentWeather(Coord.NUERNBERG);
-        assertThat(httpResponse).isNotEmpty();
-        CurrentWeather currentWeather = converter.convert(httpResponse);
+        CurrentWeather currentWeather = service.readCurrentWeather(Coord.NUERNBERG);
 
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties()

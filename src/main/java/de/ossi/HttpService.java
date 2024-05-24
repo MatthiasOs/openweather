@@ -1,6 +1,8 @@
 package de.ossi;
 
 import com.google.inject.Inject;
+import de.ossi.model.Coord;
+import de.ossi.model.CurrentWeather;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,21 +16,21 @@ import static java.net.http.HttpResponse.BodyHandlers;
 public class HttpService {
 
     private final HttpClient client;
+    private final WeatherConverter converter;
 
     @Inject
-    public HttpService(HttpClient client) {
+    public HttpService(HttpClient client, WeatherConverter converter) {
         this.client = client;
+        this.converter = converter;
     }
 
-
-    //TODO Should Return List Converted POJOs
-    public String readCurrentWeather(Coord location) throws IOException, InterruptedException {
+    public CurrentWeather readCurrentWeather(Coord location) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder(createUri(location)).build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         if (response.statusCode() != 200) {
             throw new IllegalStateException("Error with Status: " + response.statusCode() + "\nBody" + response.body());
         }
-        return response.body();
+        return converter.convert(response.body());
     }
 
     /**
