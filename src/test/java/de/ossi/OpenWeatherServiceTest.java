@@ -35,7 +35,7 @@ class OpenWeatherServiceTest {
         HttpResponse errorResponse = createResponse(statusCode);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatIllegalStateException()
-                  .isThrownBy(() -> service.readWeather(Coord.NUERNBERG))
+                  .isThrownBy(() -> service.readWeather(OpenWeatherEndpoint.WEATHER, Coord.NUERNBERG))
                   .withMessageContaining("Status: " + statusCode);
     }
 
@@ -45,7 +45,7 @@ class OpenWeatherServiceTest {
         HttpResponse errorResponse = createResponse(statusCodeSuccess);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatNoException().isThrownBy(() ->
-                service.readWeather(Coord.NUERNBERG));
+                service.readWeather(OpenWeatherEndpoint.WEATHER, Coord.NUERNBERG));
     }
 
     HttpResponse createResponse(int statusCode) {

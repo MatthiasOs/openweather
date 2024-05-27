@@ -10,7 +10,7 @@ import java.util.Optional;
 public interface WeatherService<T extends Root> {
     String OPENWEATHER_ENV = "OPENWEATHER_API_KEY";
 
-    T readWeather(Coord location) throws IOException, InterruptedException;
+    T readWeather(OpenWeatherEndpoint endpoint, Coord location) throws IOException, InterruptedException;
 
     /**
      * api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}

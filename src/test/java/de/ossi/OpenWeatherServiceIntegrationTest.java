@@ -23,7 +23,7 @@ class OpenWeatherServiceIntegrationTest {
 
     @Test
     void shouldConvertHttpResponseToJson() throws Exception {
-        CurrentWeather currentWeather = service.readWeather(Coord.NUERNBERG);
+        CurrentWeather currentWeather = service.readWeather(OpenWeatherEndpoint.WEATHER, Coord.NUERNBERG);
 
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties()

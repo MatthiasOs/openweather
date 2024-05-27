@@ -22,8 +22,8 @@ public class OpenWeatherService<T extends Root> implements WeatherService<T> {
         this.converter = converter;
     }
 
-    public T readWeather(Coord location) throws IOException, InterruptedException {
-        HttpRequest request = HttpRequest.newBuilder(createUri(OpenWeatherEndpoint.WEATHER, location)).build();
+    public T readWeather(OpenWeatherEndpoint endpoint, Coord location) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder(createUri(endpoint, location)).build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
         if (response.statusCode() != 200) {
             throw new IllegalStateException("Error with Status: " + response.statusCode() + "\nBody:\n" + response.body());
