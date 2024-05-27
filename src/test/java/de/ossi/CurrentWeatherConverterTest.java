@@ -12,8 +12,8 @@ import java.time.LocalDateTime;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.list;
 
-class WeatherConverterTest {
-    private final WeatherConverter converter = new WeatherConverter();
+class CurrentWeatherConverterTest {
+    private final WeatherConverter<CurrentWeather> converter = new CurrentWeatherConverter();
     private static String JSON_FROM_FILE;
 
     @BeforeAll

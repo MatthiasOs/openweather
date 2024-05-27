@@ -19,14 +19,14 @@ import static org.mockito.Mockito.when;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 @ExtendWith({MockitoExtension.class})
-class HttpServiceTest {
+class OpenWeatherServiceTest {
 
     @Mock
-    WeatherConverter converter;
+    CurrentWeatherConverter converter;
     @Mock
     HttpClient mockClient;
     @InjectMocks
-    HttpService service;
+    OpenWeatherService service;
 
 
     @ParameterizedTest
@@ -35,7 +35,7 @@ class HttpServiceTest {
         HttpResponse errorResponse = createResponse(statusCode);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatIllegalStateException()
-                  .isThrownBy(() -> service.readCurrentWeather(Coord.NUERNBERG))
+                  .isThrownBy(() -> service.readWeather(Coord.NUERNBERG))
                   .withMessageContaining("Status: " + statusCode);
     }
 
@@ -45,7 +45,7 @@ class HttpServiceTest {
         HttpResponse errorResponse = createResponse(statusCodeSuccess);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatNoException().isThrownBy(() ->
-                service.readCurrentWeather(Coord.NUERNBERG));
+                service.readWeather(Coord.NUERNBERG));
     }
 
     HttpResponse createResponse(int statusCode) {

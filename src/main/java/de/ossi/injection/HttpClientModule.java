@@ -4,7 +4,7 @@ import com.google.inject.AbstractModule;
 
 import java.net.http.HttpClient;
 
-public class BasicModule extends AbstractModule {
+public class HttpClientModule extends AbstractModule {
 
     @Override
     protected void configure() {
