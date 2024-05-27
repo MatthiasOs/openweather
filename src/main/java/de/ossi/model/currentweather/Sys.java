@@ -1,4 +1,4 @@
-package de.ossi.model;
+package de.ossi.model.currentweather;
 
 import java.time.LocalDateTime;
 

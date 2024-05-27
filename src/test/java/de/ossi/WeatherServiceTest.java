@@ -1,14 +1,11 @@
 package de.ossi;
 
-import de.ossi.WeatherService.OpenWeatherEndpoint;
-import de.ossi.model.Coord;
-import de.ossi.model.CurrentWeather;
+import de.ossi.model.currentweather.Coord;
 import org.assertj.core.api.Assertions;
-import org.junit.jupiter.api.Nested;
+import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.CsvSource;
-import org.junit.jupiter.params.provider.EnumSource;
+import org.junit.jupiter.params.provider.ValueSource;
 import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
@@ -22,44 +19,32 @@ import static org.mockito.Mockito.when;
 
 @SuppressWarnings({"unchecked", "rawtypes"})
 @ExtendWith({MockitoExtension.class})
-class OpenWeatherServiceTest {
+class WeatherServiceTest {
 
     @Mock
-    CurrentWeatherConverter converter;
+    WeatherConverter converter;
     @Mock
     HttpClient mockClient;
     @InjectMocks
-    OpenWeatherService<CurrentWeather> service;
-
-    @Nested
-    class Weather {
-
-    }
-
+    WeatherService service;
 
     @ParameterizedTest
-    @CsvSource({
-            "100, WEATHER",
-            "401, WEATHER",
-            "100, FORECAST",
-            "401, FORECAST",
-    })
-    void whenHttpStatusNotSuccessShouldThrowException(Integer statusCode, OpenWeatherEndpoint endpoint) throws Exception {
+    @ValueSource(ints = {100, 401, 404})
+    void whenHttpStatusNotSuccessShouldThrowException(Integer statusCode) throws Exception {
         HttpResponse errorResponse = createResponse(statusCode);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatIllegalStateException()
-                  .isThrownBy(() -> service.readWeather(endpoint, Coord.NUERNBERG))
+                  .isThrownBy(() -> service.readCurrentWeather(Coord.NUERNBERG))
                   .withMessageContaining("Status: " + statusCode);
     }
 
-    @EnumSource
-    @ParameterizedTest
-    void whenHttpStatusSuccessShouldNotThrowException(OpenWeatherEndpoint endpoint) throws Exception {
+    @Test
+    void whenHttpStatusSuccessShouldNotThrowException() throws Exception {
         int statusCodeSuccess = 200;
         HttpResponse errorResponse = createResponse(statusCodeSuccess);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatNoException().isThrownBy(() ->
-                service.readWeather(endpoint, Coord.NUERNBERG));
+                service.readCurrentWeather(Coord.NUERNBERG));
     }
 
     HttpResponse createResponse(int statusCode) {

@@ -1,30 +1,62 @@
 package de.ossi;
 
-import de.ossi.model.Coord;
-import de.ossi.model.Root;
+import com.google.inject.Inject;
+import de.ossi.model.currentweather.Coord;
+import de.ossi.model.currentweather.CurrentWeather;
+import de.ossi.model.forecast.Forecast;
 
 import java.io.IOException;
 import java.net.URI;
+import java.net.http.HttpClient;
+import java.net.http.HttpRequest;
+import java.net.http.HttpResponse;
 import java.util.Optional;
 
-public interface WeatherService<T extends Root> {
-    String OPENWEATHER_ENV = "OPENWEATHER_API_KEY";
+import static java.net.http.HttpResponse.BodyHandlers;
 
-    T readWeather(OpenWeatherEndpoint endpoint, Coord location) throws IOException, InterruptedException;
+public class WeatherService {
+    public static final String OPENWEATHER_ENV = "OPENWEATHER_API_KEY";
+    private final HttpClient client;
+    private final WeatherConverter converter;
+
+    @Inject
+    public WeatherService(HttpClient client, WeatherConverter converter) {
+        this.client = client;
+        this.converter = converter;
+    }
+
+    public CurrentWeather readCurrentWeather(Coord location) throws IOException, InterruptedException {
+        HttpResponse<String> response = send(createUri(OpenWeatherEndpoint.WEATHER, location));
+        return converter.convertCurrentWeather(response.body());
+    }
+
+    public Forecast readForcast(Coord location) throws IOException, InterruptedException {
+        HttpResponse<String> response = send(createUri(OpenWeatherEndpoint.FORECAST, location));
+        return converter.convertForecast(response.body());
+    }
+
+    private HttpResponse<String> send(URI uri) throws IOException, InterruptedException {
+        HttpRequest request = HttpRequest.newBuilder(uri).build();
+        HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
+        if (response.statusCode() != 200) {
+            throw new IllegalStateException("Error with Status: " + response.statusCode() + "\nBody:\n" + response.body());
+        }
+        return response;
+    }
 
     /**
      * api.openweathermap.org/data/2.5/weather?lat={lat}&lon={lon}&appid={API key}
      *
      * @see <a href="https://openweathermap.org/current">OpenWeather</a>
      */
-    default URI createUri(OpenWeatherEndpoint openWeatherEndpoint, Coord location) {
+    private URI createUri(OpenWeatherEndpoint openWeatherEndpoint, Coord location) {
         String openweatherApiKey = Optional.ofNullable(System.getenv(OPENWEATHER_ENV))
                                            .orElseThrow(ApiKeyNotFoundException::new);
         String url = "http://api.openweathermap.org/data/2.5/" + openWeatherEndpoint + "?lat=" + location.latitude() + "&lon=" + location.longitude() + "&appid=" + openweatherApiKey;
         return URI.create(url);
     }
 
-    class ApiKeyNotFoundException extends RuntimeException {
+    private static class ApiKeyNotFoundException extends RuntimeException {
         ApiKeyNotFoundException() {
             super("API Key not found in the System Environment Variable OPENWEATHER_API_KEY");
         }

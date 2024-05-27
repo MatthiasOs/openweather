@@ -1,17 +1,13 @@
 package de.ossi;
 
-import com.google.inject.Key;
-import com.google.inject.TypeLiteral;
-import de.ossi.model.Coord;
-import de.ossi.model.CurrentWeather;
+import de.ossi.model.currentweather.Coord;
+import de.ossi.model.currentweather.CurrentWeather;
 import de.ossi.model.forecast.City;
 import de.ossi.model.forecast.Forecast;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 
-import static de.ossi.WeatherService.OpenWeatherEndpoint.FORECAST;
-import static de.ossi.WeatherService.OpenWeatherEndpoint.WEATHER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 
@@ -19,13 +15,12 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
  * This test queries the REAL OpenWeather API.
  * Therefor an API Key is required, see the ReadMe for more infos.
  */
-class OpenWeatherServiceIntegrationTest extends Injectable {
-    WeatherService<CurrentWeather> currentWeatherService = injector.getInstance(Key.get(new TypeLiteral<>() {}));
-    WeatherService<Forecast> forecastWeatherService = injector.getInstance(Key.get(new TypeLiteral<>() {}));
+class WeatherServiceIntegrationTest implements Injectable {
+    WeatherService weatherService = injector.getInstance(WeatherService.class);
 
     @Test
     void shouldConvertCurrentWeatherHttpResponseToJson() throws Exception {
-        CurrentWeather currentWeather = currentWeatherService.readWeather(WEATHER, Coord.NUERNBERG);
+        CurrentWeather currentWeather = weatherService.readCurrentWeather(Coord.NUERNBERG);
 
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties()
@@ -44,7 +39,7 @@ class OpenWeatherServiceIntegrationTest extends Injectable {
 
     @Test
     void shouldConvertForecastHttpResponseToJson() throws Exception {
-        Forecast forecast = forecastWeatherService.readWeather(FORECAST, Coord.NUERNBERG);
+        Forecast forecast = weatherService.readForcast(Coord.NUERNBERG);
         assertThat(forecast)
                 .hasNoNullFieldsOrProperties()
                 .extracting(Forecast::city)

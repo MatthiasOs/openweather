@@ -3,14 +3,21 @@ package de.ossi;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 import de.ossi.json.LocalDateTimeDeserializer;
-import de.ossi.model.Root;
+import de.ossi.model.currentweather.CurrentWeather;
+import de.ossi.model.forecast.Forecast;
 
 import java.time.LocalDateTime;
 
-public interface WeatherConverter<T extends Root> {
+public class WeatherConverter {
     Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
                                  .setPrettyPrinting()
                                  .create();
 
-    T convert(String json);
+    public CurrentWeather convertCurrentWeather(String json) {
+        return gson.fromJson(json, CurrentWeather.class);
+    }
+
+    public Forecast convertForecast(String json) {
+        return gson.fromJson(json, Forecast.class);
+    }
 }
