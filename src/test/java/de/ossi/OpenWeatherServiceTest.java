@@ -1,6 +1,7 @@
 package de.ossi;
 
 import de.ossi.model.Coord;
+import de.ossi.model.CurrentWeather;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -13,6 +14,7 @@ import org.mockito.junit.jupiter.MockitoExtension;
 import java.net.http.HttpClient;
 import java.net.http.HttpResponse;
 
+import static de.ossi.WeatherService.OpenWeatherEndpoint.WEATHER;
 import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
@@ -26,7 +28,7 @@ class OpenWeatherServiceTest {
     @Mock
     HttpClient mockClient;
     @InjectMocks
-    OpenWeatherService service;
+    OpenWeatherService<CurrentWeather> service;
 
 
     @ParameterizedTest
@@ -35,7 +37,7 @@ class OpenWeatherServiceTest {
         HttpResponse errorResponse = createResponse(statusCode);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatIllegalStateException()
-                  .isThrownBy(() -> service.readWeather(OpenWeatherEndpoint.WEATHER, Coord.NUERNBERG))
+                  .isThrownBy(() -> service.readWeather(WEATHER, Coord.NUERNBERG))
                   .withMessageContaining("Status: " + statusCode);
     }
 
@@ -45,7 +47,7 @@ class OpenWeatherServiceTest {
         HttpResponse errorResponse = createResponse(statusCodeSuccess);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
         Assertions.assertThatNoException().isThrownBy(() ->
-                service.readWeather(OpenWeatherEndpoint.WEATHER, Coord.NUERNBERG));
+                service.readWeather(WEATHER, Coord.NUERNBERG));
     }
 
     HttpResponse createResponse(int statusCode) {

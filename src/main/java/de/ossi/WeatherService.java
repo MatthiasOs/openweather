@@ -29,4 +29,13 @@ public interface WeatherService<T extends Root> {
             super("API Key not found in the System Environment Variable OPENWEATHER_API_KEY");
         }
     }
+
+    enum OpenWeatherEndpoint {
+        WEATHER, FORECAST;
+
+        @Override
+        public String toString() {
+            return super.toString().toLowerCase();
+        }
+    }
 }

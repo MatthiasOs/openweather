@@ -8,6 +8,7 @@ import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 
+import static de.ossi.WeatherService.OpenWeatherEndpoint.WEATHER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
 
@@ -16,11 +17,11 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
  * Therefor an API Key is required, see the ReadMe for more infos.
  */
 class OpenWeatherServiceIntegrationTest extends Injectable {
-    WeatherService<CurrentWeather> service = injector.getInstance(Key.get(new TypeLiteral<>() {}));
+    WeatherService<CurrentWeather> currentWeatherService = injector.getInstance(Key.get(new TypeLiteral<>() {}));
 
     @Test
-    void shouldConvertHttpResponseToJson() throws Exception {
-        CurrentWeather currentWeather = service.readWeather(OpenWeatherEndpoint.WEATHER, Coord.NUERNBERG);
+    void shouldConvertCurrentWeatherHttpResponseToJson() throws Exception {
+        CurrentWeather currentWeather = currentWeatherService.readWeather(WEATHER, Coord.NUERNBERG);
 
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties()
