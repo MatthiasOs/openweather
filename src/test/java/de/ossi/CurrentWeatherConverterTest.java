@@ -18,18 +18,18 @@ class CurrentWeatherConverterTest {
 
     @BeforeAll
     static void readFile() throws Exception {
-        JSON_FROM_FILE = Files.readString(Path.of("src/test/resources/example.json"));
+        JSON_FROM_FILE = Files.readString(Path.of("src/test/resources/currentweather.json"));
     }
 
     @Test
-    void shouldHaveNoNullFieldsAfterConvertingFromJsonExample() {
+    void shouldHaveNoNullFieldsAfterConverting() {
         CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties();
     }
 
     @Test
-    void shouldConvertWindFromJsonExample() {
+    void shouldConvertWind() {
         CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
         assertThat(currentWeather)
                 .extracting("wind.speed", "wind.degrees", "wind.gust")
@@ -37,7 +37,7 @@ class CurrentWeatherConverterTest {
     }
 
     @Test
-    void shouldConvertTempFromJsonExample() {
+    void shouldConvertTemp() {
         CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
         assertThat(currentWeather)
                 .extracting("main.temp", "main.feelsLike")
@@ -45,7 +45,7 @@ class CurrentWeatherConverterTest {
     }
 
     @Test
-    void shouldConvertSysFromJsonExample() {
+    void shouldConvertSysFrom() {
         LocalDateTime sunrise = LocalDateTime.of(2022, 8, 30, 6, 36, 27);
         LocalDateTime sunset = LocalDateTime.of(2022, 8, 30, 19, 57, 28);
         CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
@@ -55,7 +55,7 @@ class CurrentWeatherConverterTest {
     }
 
     @Test
-    void shouldConvertWeathersFromJsonExample() {
+    void shouldConvertWeathersFrom() {
         CurrentWeather currentWeather = converter.convert(JSON_FROM_FILE);
         assertThat(currentWeather)
                 .extracting(CurrentWeather::weathers, list(Weather.class))

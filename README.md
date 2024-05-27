@@ -16,3 +16,8 @@ This Key as to be in an environment variable named "OPENWEATHER_API_KEY".
 
 - Windows: `setx OPENWEATHER_API_KEY your_api_key`
 - Unix/Linux/MacOS: `export API_KEY="your_api_key"`
+
+## TODO
+
+The Enum OpenWeatherEndpoint is bad design:
+The Service should know for itself, where the endpoint lies.

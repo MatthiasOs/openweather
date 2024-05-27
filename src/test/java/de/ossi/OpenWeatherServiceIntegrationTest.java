@@ -4,10 +4,13 @@ import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
 import de.ossi.model.Coord;
 import de.ossi.model.CurrentWeather;
+import de.ossi.model.forecast.City;
+import de.ossi.model.forecast.Forecast;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 
+import static de.ossi.WeatherService.OpenWeatherEndpoint.FORECAST;
 import static de.ossi.WeatherService.OpenWeatherEndpoint.WEATHER;
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
@@ -18,6 +21,7 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
  */
 class OpenWeatherServiceIntegrationTest extends Injectable {
     WeatherService<CurrentWeather> currentWeatherService = injector.getInstance(Key.get(new TypeLiteral<>() {}));
+    WeatherService<Forecast> forecastWeatherService = injector.getInstance(Key.get(new TypeLiteral<>() {}));
 
     @Test
     void shouldConvertCurrentWeatherHttpResponseToJson() throws Exception {
@@ -36,5 +40,15 @@ class OpenWeatherServiceIntegrationTest extends Injectable {
                           .isCloseTo(Coord.NUERNBERG.longitude(), Offset.offset(0.5));
                 }
         );
+    }
+
+    @Test
+    void shouldConvertForecastHttpResponseToJson() throws Exception {
+        Forecast forecast = forecastWeatherService.readWeather(FORECAST, Coord.NUERNBERG);
+        assertThat(forecast)
+                .hasNoNullFieldsOrProperties()
+                .extracting(Forecast::city)
+                .extracting(City::country, City::name)
+                .containsExactly("DE", "Nuremberg");
     }
 }
