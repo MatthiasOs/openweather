@@ -1,9 +1,7 @@
 package de.ossi;
 
-import com.google.inject.Guice;
 import com.google.inject.Key;
 import com.google.inject.TypeLiteral;
-import de.ossi.injection.CurrentWeatherModule;
 import de.ossi.model.Coord;
 import de.ossi.model.CurrentWeather;
 import org.assertj.core.api.SoftAssertions;
@@ -17,9 +15,8 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
  * This test queries the REAL OpenWeather API.
  * Therefor an API Key is required, see the ReadMe for more infos.
  */
-class OpenWeatherServiceIntegrationTest {
-    WeatherService<CurrentWeather> service = Guice.createInjector(new CurrentWeatherModule())
-                                                  .getInstance(Key.get(new TypeLiteral<>() {}));
+class OpenWeatherServiceIntegrationTest extends Injectable {
+    WeatherService<CurrentWeather> service = injector.getInstance(Key.get(new TypeLiteral<>() {}));
 
     @Test
     void shouldConvertHttpResponseToJson() throws Exception {
