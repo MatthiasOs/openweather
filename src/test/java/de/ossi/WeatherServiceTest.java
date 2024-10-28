@@ -17,7 +17,7 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.mock;
 import static org.mockito.Mockito.when;
 
-@SuppressWarnings({"unchecked", "rawtypes"})
+@SuppressWarnings("unchecked")
 @ExtendWith({MockitoExtension.class})
 class WeatherServiceTest {
 
@@ -31,8 +31,7 @@ class WeatherServiceTest {
     @ParameterizedTest
     @ValueSource(ints = {100, 401, 404})
     void whenHttpStatusNotSuccessShouldThrowException(Integer statusCode) throws Exception {
-        HttpResponse errorResponse = createResponse(statusCode);
-        when(mockClient.send(any(), any())).thenReturn(errorResponse);
+        givenResponse(statusCode);
         Assertions.assertThatIllegalStateException()
                   .isThrownBy(() -> service.readCurrentWeather(Coord.NUERNBERG))
                   .withMessageContaining("Status: " + statusCode);
@@ -41,16 +40,15 @@ class WeatherServiceTest {
     @Test
     void whenHttpStatusSuccessShouldNotThrowException() throws Exception {
         int statusCodeSuccess = 200;
-        HttpResponse errorResponse = createResponse(statusCodeSuccess);
-        when(mockClient.send(any(), any())).thenReturn(errorResponse);
+        givenResponse(statusCodeSuccess);
         Assertions.assertThatNoException().isThrownBy(() ->
                 service.readCurrentWeather(Coord.NUERNBERG));
     }
 
-    HttpResponse createResponse(int statusCode) {
-        HttpResponse<String> errorResponse = (HttpResponse<String>) mock(HttpResponse.class);
+    void givenResponse(int statusCode) throws Exception{
+        HttpResponse<Object> errorResponse = mock(HttpResponse.class);
         when(errorResponse.statusCode()).thenReturn(statusCode);
-        return errorResponse;
+        when(mockClient.send(any(), any())).thenReturn(errorResponse);
     }
 
 }
