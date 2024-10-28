@@ -14,7 +14,7 @@ public class KelvinToCelsiusConverter implements JsonDeserializer<Double> {
     @Override
     public Double deserialize(JsonElement json, Type typeOfT, JsonDeserializationContext context) throws JsonParseException {
         //Use BigDecimal, because floating point numbers in java are not exact
-        BigDecimal originalValue = new BigDecimal(json.getAsJsonPrimitive().getAsString());
+        BigDecimal originalValue = json.getAsJsonPrimitive().getAsBigDecimal();
         return originalValue.subtract(KELVIN_CONSTANT).doubleValue();
     }
 }
