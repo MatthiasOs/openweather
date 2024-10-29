@@ -1,5 +1,6 @@
-package de.ossi;
+package de.ossi.service;
 
+import de.ossi.model.CurrentWeatherConverter;
 import de.ossi.model.currentweather.Coord;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
@@ -19,21 +20,21 @@ import static org.mockito.Mockito.when;
 
 @SuppressWarnings("unchecked")
 @ExtendWith({MockitoExtension.class})
-class WeatherServiceTest {
+class CurrentWeatherServiceTest {
 
     @Mock
-    WeatherConverter converter;
+    CurrentWeatherConverter currentWeatherWeatherConverter;
     @Mock
     HttpClient mockClient;
     @InjectMocks
-    WeatherService service;
+    CurrentWeatherService currentWeatherWeatherService;
 
     @ParameterizedTest
     @ValueSource(ints = {100, 401, 404})
     void whenHttpStatusNotSuccessShouldThrowException(Integer statusCode) throws Exception {
         givenResponse(statusCode);
         Assertions.assertThatIllegalStateException()
-                  .isThrownBy(() -> service.readCurrentWeather(Coord.NUERNBERG))
+                  .isThrownBy(() -> currentWeatherWeatherService.read(Coord.NUERNBERG))
                   .withMessageContaining("Status: " + statusCode);
     }
 
@@ -42,7 +43,7 @@ class WeatherServiceTest {
         int statusCodeSuccess = 200;
         givenResponse(statusCodeSuccess);
         Assertions.assertThatNoException().isThrownBy(() ->
-                service.readCurrentWeather(Coord.NUERNBERG));
+                currentWeatherWeatherService.read(Coord.NUERNBERG));
     }
 
     void givenResponse(int statusCode) throws Exception{

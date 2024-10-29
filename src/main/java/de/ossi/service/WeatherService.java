@@ -1,9 +1,8 @@
-package de.ossi;
+package de.ossi.service;
 
 import com.google.inject.Inject;
+import de.ossi.model.WeatherConverter;
 import de.ossi.model.currentweather.Coord;
-import de.ossi.model.currentweather.CurrentWeather;
-import de.ossi.model.forecast.Forecast;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,25 +13,22 @@ import java.util.Optional;
 
 import static java.net.http.HttpResponse.BodyHandlers;
 
-public class WeatherService {
+public abstract class WeatherService<T> {
     public static final String OPENWEATHER_ENV = "OPENWEATHER_API_KEY";
     private final HttpClient client;
-    private final WeatherConverter converter;
+    private final WeatherConverter<T> converter;
+    private final String endpoint;
 
     @Inject
-    public WeatherService(HttpClient client, WeatherConverter converter) {
+    public WeatherService(HttpClient client, WeatherConverter<T> converter, String endpoint) {
         this.client = client;
         this.converter = converter;
+        this.endpoint = endpoint;
     }
 
-    public CurrentWeather readCurrentWeather(Coord location) throws IOException, InterruptedException {
-        HttpResponse<String> response = send(createUri(OpenWeatherEndpoint.WEATHER, location));
-        return converter.convertCurrentWeather(response.body());
-    }
-
-    public Forecast readForcast(Coord location) throws IOException, InterruptedException {
-        HttpResponse<String> response = send(createUri(OpenWeatherEndpoint.FORECAST, location));
-        return converter.convertForecast(response.body());
+    public T read(Coord location) throws IOException, InterruptedException {
+        HttpResponse<String> response = send(createUri(location));
+        return converter.convert(response.body());
     }
 
     private HttpResponse<String> send(URI uri) throws IOException, InterruptedException {
@@ -49,10 +45,10 @@ public class WeatherService {
      *
      * @see <a href="https://openweathermap.org/current">OpenWeather</a>
      */
-    private URI createUri(OpenWeatherEndpoint openWeatherEndpoint, Coord location) {
+    private URI createUri(Coord location) {
         String openweatherApiKey = Optional.ofNullable(System.getenv(OPENWEATHER_ENV))
                                            .orElseThrow(ApiKeyNotFoundException::new);
-        String url = "http://api.openweathermap.org/data/2.5/" + openWeatherEndpoint + "?lat=" + location.latitude() + "&lon=" + location.longitude() + "&appid=" + openweatherApiKey;
+        String url = "http://api.openweathermap.org/data/2.5/" + endpoint + "?lat=" + location.latitude() + "&lon=" + location.longitude() + "&appid=" + openweatherApiKey;
         return URI.create(url);
     }
 

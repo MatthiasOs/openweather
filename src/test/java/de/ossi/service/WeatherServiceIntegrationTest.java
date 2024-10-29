@@ -1,5 +1,8 @@
-package de.ossi;
+package de.ossi.service;
 
+import com.google.inject.Key;
+import com.google.inject.TypeLiteral;
+import de.ossi.Injectable;
 import de.ossi.model.currentweather.Coord;
 import de.ossi.model.currentweather.CurrentWeather;
 import de.ossi.model.forecast.City;
@@ -16,11 +19,12 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
  * Therefor an API Key is required, see the ReadMe for more infos.
  */
 class WeatherServiceIntegrationTest implements Injectable {
-    WeatherService weatherService = injector.getInstance(WeatherService.class);
+    WeatherService<CurrentWeather> currentWeatherService = injector.getInstance(Key.get(new TypeLiteral<>() {}));
+    WeatherService<Forecast> forecastService = injector.getInstance(Key.get(new TypeLiteral<>() {}));
 
     @Test
     void shouldConvertCurrentWeatherHttpResponseToJson() throws Exception {
-        CurrentWeather currentWeather = weatherService.readCurrentWeather(Coord.NUERNBERG);
+        CurrentWeather currentWeather = currentWeatherService.read(Coord.NUERNBERG);
 
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties()
@@ -39,7 +43,7 @@ class WeatherServiceIntegrationTest implements Injectable {
 
     @Test
     void shouldConvertForecastHttpResponseToJson() throws Exception {
-        Forecast forecast = weatherService.readForcast(Coord.NUERNBERG);
+        Forecast forecast = forecastService.read(Coord.NUERNBERG);
         assertThat(forecast)
                 .hasNoNullFieldsOrProperties()
                 .extracting(Forecast::city)
