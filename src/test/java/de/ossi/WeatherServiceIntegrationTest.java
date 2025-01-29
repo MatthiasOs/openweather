@@ -39,7 +39,7 @@ class WeatherServiceIntegrationTest implements Injectable {
 
     @Test
     void shouldConvertForecastHttpResponseToJson() throws Exception {
-        Forecast forecast = weatherService.readForcast(Coord.NUERNBERG);
+        Forecast forecast = weatherService.readForecast(Coord.NUERNBERG);
         assertThat(forecast)
                 .hasNoNullFieldsOrProperties()
                 .extracting(Forecast::city)

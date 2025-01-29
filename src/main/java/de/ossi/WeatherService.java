@@ -30,7 +30,7 @@ public class WeatherService {
         return converter.convertCurrentWeather(response.body());
     }
 
-    public Forecast readForcast(Coord location) throws IOException, InterruptedException {
+    public Forecast readForecast(Coord location) throws IOException, InterruptedException {
         HttpResponse<String> response = send(createUri(OpenWeatherEndpoint.FORECAST, location));
         return converter.convertForecast(response.body());
     }
