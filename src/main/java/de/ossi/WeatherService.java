@@ -58,11 +58,11 @@ public class WeatherService {
 
     private static class ApiKeyNotFoundException extends RuntimeException {
         ApiKeyNotFoundException() {
-            super("API Key not found in the System Environment Variable OPENWEATHER_API_KEY");
+            super(String.format("API Key not found in the System Environment Variable \"%s\"", OPENWEATHER_ENV));
         }
     }
 
-    enum OpenWeatherEndpoint {
+    private enum OpenWeatherEndpoint {
         WEATHER, FORECAST;
 
         @Override

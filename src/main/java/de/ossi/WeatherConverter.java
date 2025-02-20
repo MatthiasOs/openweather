@@ -9,9 +9,9 @@ import de.ossi.model.forecast.Forecast;
 import java.time.LocalDateTime;
 
 public class WeatherConverter {
-    Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
-                                 .setPrettyPrinting()
-                                 .create();
+    private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
+                                               .setPrettyPrinting()
+                                               .create();
 
     public CurrentWeather convertCurrentWeather(String json) {
         return gson.fromJson(json, CurrentWeather.class);
