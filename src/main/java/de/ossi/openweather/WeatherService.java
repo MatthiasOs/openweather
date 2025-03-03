@@ -3,6 +3,7 @@ package de.ossi.openweather;
 import de.ossi.openweather.model.currentweather.Coord;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.forecast.Forecast;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -13,6 +14,7 @@ import java.util.Optional;
 
 import static java.net.http.HttpResponse.BodyHandlers;
 
+@Service
 public class WeatherService {
     public static final String OPENWEATHER_ENV = "OPENWEATHER_API_KEY";
     private final HttpClient client;

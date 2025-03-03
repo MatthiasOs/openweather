@@ -5,9 +5,11 @@ import com.google.gson.GsonBuilder;
 import de.ossi.openweather.json.LocalDateTimeDeserializer;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.forecast.Forecast;
+import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
 
+@Service
 public class WeatherConverter {
     private final Gson gson = new GsonBuilder().registerTypeAdapter(LocalDateTime.class, new LocalDateTimeDeserializer())
                                                .setPrettyPrinting()
