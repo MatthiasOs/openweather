@@ -7,6 +7,8 @@ import de.ossi.openweather.model.forecast.Forecast;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
@@ -15,12 +17,15 @@ import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
  * This test queries the REAL OpenWeather API.
  * Therefor an API Key is required, see the ReadMe for more infos.
  */
-class WeatherServiceIntegrationTest implements Injectable {
-    WeatherService weatherService = injector.getInstance(WeatherService.class);
+@SpringBootTest
+class WeatherServiceIntegrationTest {
+    @Autowired
+    CurrentWeather currentWeather;
+    @Autowired
+    Forecast forecast;
 
     @Test
-    void shouldConvertCurrentWeatherHttpResponseToJson() throws Exception {
-        CurrentWeather currentWeather = weatherService.readCurrentWeather(Coord.NUERNBERG);
+    void shouldConvertCurrentWeatherHttpResponseToJson() {
 
         assertThat(currentWeather)
                 .hasNoNullFieldsOrProperties()
@@ -38,8 +43,7 @@ class WeatherServiceIntegrationTest implements Injectable {
     }
 
     @Test
-    void shouldConvertForecastHttpResponseToJson() throws Exception {
-        Forecast forecast = weatherService.readForecast(Coord.NUERNBERG);
+    void shouldConvertForecastHttpResponseToJson() {
         assertThat(forecast)
                 .hasNoNullFieldsOrProperties()
                 .extracting(Forecast::city)

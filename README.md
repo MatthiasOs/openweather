@@ -4,9 +4,10 @@ HttpService to Query https://openweathermap.org/current for Weather Data.
 
 ## Uses
 
+- SpringBoot 3.4.3
+- Lombok
 - Javas HttpClient for the Request
 - Google Gson for JSON Convertion
-- Google Guise for Dependency Injection
 
 ## OpenWeather API Key
 

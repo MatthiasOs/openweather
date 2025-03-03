@@ -1,6 +1,5 @@
 package de.ossi.openweather;
 
-import com.google.inject.Inject;
 import de.ossi.openweather.model.currentweather.Coord;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.forecast.Forecast;
@@ -19,7 +18,6 @@ public class WeatherService {
     private final HttpClient client;
     private final WeatherConverter converter;
 
-    @Inject
     public WeatherService(HttpClient client, WeatherConverter converter) {
         this.client = client;
         this.converter = converter;
