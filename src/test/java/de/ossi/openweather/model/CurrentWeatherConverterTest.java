@@ -1,9 +1,9 @@
-package de.ossi;
+package de.ossi.openweather.model;
 
-import de.ossi.model.currentweather.CurrentWeather;
-import de.ossi.model.currentweather.Weather;
-import de.ossi.model.forecast.City;
-import de.ossi.model.forecast.Forecast;
+import de.ossi.openweather.model.currentweather.CurrentWeather;
+import de.ossi.openweather.model.currentweather.Weather;
+import de.ossi.openweather.model.forecast.City;
+import de.ossi.openweather.model.forecast.Forecast;
 import org.junit.jupiter.api.BeforeAll;
 import org.junit.jupiter.api.Nested;
 import org.junit.jupiter.api.Test;

@@ -1,4 +1,4 @@
-package de.ossi.json;
+package de.ossi.openweather.json;
 
 import com.google.gson.JsonDeserializationContext;
 import com.google.gson.JsonDeserializer;

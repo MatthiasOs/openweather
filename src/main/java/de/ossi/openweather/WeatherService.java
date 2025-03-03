@@ -1,9 +1,10 @@
-package de.ossi;
+package de.ossi.openweather;
 
-import com.google.inject.Inject;
-import de.ossi.model.currentweather.Coord;
-import de.ossi.model.currentweather.CurrentWeather;
-import de.ossi.model.forecast.Forecast;
+import de.ossi.openweather.model.WeatherConverter;
+import de.ossi.openweather.model.currentweather.Coord;
+import de.ossi.openweather.model.currentweather.CurrentWeather;
+import de.ossi.openweather.model.forecast.Forecast;
+import org.springframework.stereotype.Service;
 
 import java.io.IOException;
 import java.net.URI;
@@ -14,12 +15,12 @@ import java.util.Optional;
 
 import static java.net.http.HttpResponse.BodyHandlers;
 
+@Service
 public class WeatherService {
     public static final String OPENWEATHER_ENV = "OPENWEATHER_API_KEY";
     private final HttpClient client;
     private final WeatherConverter converter;
 
-    @Inject
     public WeatherService(HttpClient client, WeatherConverter converter) {
         this.client = client;
         this.converter = converter;

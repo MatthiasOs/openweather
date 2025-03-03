@@ -1,6 +1,7 @@
-package de.ossi;
+package de.ossi.openweather;
 
-import de.ossi.model.currentweather.Coord;
+import de.ossi.openweather.model.WeatherConverter;
+import de.ossi.openweather.model.currentweather.Coord;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -45,7 +46,7 @@ class WeatherServiceTest {
                 service.readCurrentWeather(Coord.NUERNBERG));
     }
 
-    void givenResponse(int statusCode) throws Exception{
+    void givenResponse(int statusCode) throws Exception {
         HttpResponse<Object> errorResponse = mock(HttpResponse.class);
         when(errorResponse.statusCode()).thenReturn(statusCode);
         when(mockClient.send(any(), any())).thenReturn(errorResponse);
