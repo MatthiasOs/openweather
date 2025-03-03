@@ -1,9 +1,9 @@
-package de.ossi;
+package de.ossi.openweather;
 
-import de.ossi.model.currentweather.Coord;
-import de.ossi.model.currentweather.CurrentWeather;
-import de.ossi.model.forecast.City;
-import de.ossi.model.forecast.Forecast;
+import de.ossi.openweather.model.currentweather.Coord;
+import de.ossi.openweather.model.currentweather.CurrentWeather;
+import de.ossi.openweather.model.forecast.City;
+import de.ossi.openweather.model.forecast.Forecast;
 import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;

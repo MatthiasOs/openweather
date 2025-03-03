@@ -1,9 +1,9 @@
-package de.ossi;
+package de.ossi.openweather;
 
 import com.google.inject.Inject;
-import de.ossi.model.currentweather.Coord;
-import de.ossi.model.currentweather.CurrentWeather;
-import de.ossi.model.forecast.Forecast;
+import de.ossi.openweather.model.currentweather.Coord;
+import de.ossi.openweather.model.currentweather.CurrentWeather;
+import de.ossi.openweather.model.forecast.Forecast;
 
 import java.io.IOException;
 import java.net.URI;

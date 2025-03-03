@@ -1,10 +1,10 @@
-package de.ossi;
+package de.ossi.openweather;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-import de.ossi.json.LocalDateTimeDeserializer;
-import de.ossi.model.currentweather.CurrentWeather;
-import de.ossi.model.forecast.Forecast;
+import de.ossi.openweather.json.LocalDateTimeDeserializer;
+import de.ossi.openweather.model.currentweather.CurrentWeather;
+import de.ossi.openweather.model.forecast.Forecast;
 
 import java.time.LocalDateTime;
 

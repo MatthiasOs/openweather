@@ -1,4 +1,4 @@
-package de.ossi.injection;
+package de.ossi.openweather.injection;
 
 import com.google.inject.AbstractModule;
 
