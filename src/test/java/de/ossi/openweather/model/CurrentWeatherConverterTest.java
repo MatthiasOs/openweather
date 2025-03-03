@@ -1,4 +1,4 @@
-package de.ossi.openweather;
+package de.ossi.openweather.model;
 
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.currentweather.Weather;

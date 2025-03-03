@@ -1,5 +1,6 @@
 package de.ossi.openweather;
 
+import de.ossi.openweather.model.WeatherConverter;
 import de.ossi.openweather.model.currentweather.Coord;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;

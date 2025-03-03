@@ -1,4 +1,4 @@
-package de.ossi.openweather;
+package de.ossi.openweather.model;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;

@@ -29,3 +29,4 @@ Start Application:
 Example Request:
 
 http://localhost:8081/api/v1/currentweather?latitude=49.4541&longitude=11.0768
+http://localhost:8081/api/v1/forecast?latitude=52.5200&longitude=13.4050

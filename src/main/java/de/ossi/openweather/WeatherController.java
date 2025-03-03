@@ -3,6 +3,7 @@ package de.ossi.openweather;
 
 import de.ossi.openweather.model.currentweather.Coord;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
+import de.ossi.openweather.model.forecast.Forecast;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -23,5 +24,12 @@ public class WeatherController {
             @RequestParam double latitude,
             @RequestParam double longitude) throws IOException, InterruptedException {
         return weatherService.readCurrentWeather(new Coord(latitude, longitude));
+    }
+
+    @GetMapping("/forecast")
+    public Forecast getForecastAt(
+            @RequestParam double latitude,
+            @RequestParam double longitude) throws IOException, InterruptedException {
+        return weatherService.readForecast(new Coord(latitude, longitude));
     }
 }
