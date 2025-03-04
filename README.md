@@ -7,7 +7,7 @@ App to query https://openweathermap.org/ for Weather Data.
 - Java 23
 - SpringBoot 3.4.3
 - Java's HttpClient for the Request
-- Google Gson for JSON Convertion
+- Google Gson for JSON conversion
 
 ## OpenWeather API Key
 
