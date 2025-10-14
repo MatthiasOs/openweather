@@ -4,8 +4,6 @@ import de.ossi.openweather.model.currentweather.Coord;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.forecast.City;
 import de.ossi.openweather.model.forecast.Forecast;
-import org.assertj.core.api.InstanceOfAssertFactories;
-import org.assertj.core.api.SoftAssertions;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,6 +11,8 @@ import org.springframework.boot.test.context.SpringBootTest;
 
 import static org.assertj.core.api.Assertions.assertThat;
 import static org.assertj.core.api.InstanceOfAssertFactories.DOUBLE;
+import static org.assertj.core.api.InstanceOfAssertFactories.list;
+import static org.assertj.core.api.SoftAssertions.assertSoftly;
 
 /**
  * This test queries the REAL OpenWeather API.
@@ -30,13 +30,13 @@ class WeatherServiceIntegrationTest {
                 .hasNoNullFieldsOrProperties()
                 .extracting(CurrentWeather::cityName)
                 .isEqualTo("Nuremberg");
-        SoftAssertions.assertSoftly(softly -> {
+        assertSoftly(softly -> {
             softly.assertThat(currentWeather.coord())
-                  .extracting(Coord::latitude, DOUBLE)
-                  .isCloseTo(Coord.NUERNBERG.latitude(), Offset.offset(0.5));
+                    .extracting(Coord::latitude, DOUBLE)
+                    .isCloseTo(Coord.NUERNBERG.latitude(), Offset.offset(0.5));
             softly.assertThat(currentWeather.coord())
-                  .extracting(Coord::longitude, DOUBLE)
-                  .isCloseTo(Coord.NUERNBERG.longitude(), Offset.offset(0.5));
+                    .extracting(Coord::longitude, DOUBLE)
+                    .isCloseTo(Coord.NUERNBERG.longitude(), Offset.offset(0.5));
         });
     }
 
@@ -49,7 +49,7 @@ class WeatherServiceIntegrationTest {
                 .extracting(City::country, City::name)
                 .containsExactly("DE", "Nuremberg");
         assertThat(forecast)
-                .extracting(Forecast::weathers, InstanceOfAssertFactories.list(CurrentWeather.class))
+                .extracting(Forecast::weathers, list(CurrentWeather.class))
                 .isNotEmpty()
                 .allSatisfy(weather -> {
                     assertThat(weather)

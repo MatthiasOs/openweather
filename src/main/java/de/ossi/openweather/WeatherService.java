@@ -4,6 +4,7 @@ import de.ossi.openweather.model.WeatherConverter;
 import de.ossi.openweather.model.currentweather.Coord;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.forecast.Forecast;
+import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 
 import java.io.IOException;
@@ -39,7 +40,7 @@ public class WeatherService {
     private HttpResponse<String> send(URI uri) throws IOException, InterruptedException {
         HttpRequest request = HttpRequest.newBuilder(uri).build();
         HttpResponse<String> response = client.send(request, BodyHandlers.ofString());
-        if (response.statusCode() != 200) {
+        if (response.statusCode() != HttpStatus.OK.value()) {
             throw new IllegalStateException("Error with Status: " + response.statusCode() + "\nBody:\n" + response.body());
         }
         return response;
@@ -52,7 +53,7 @@ public class WeatherService {
      */
     private URI createUri(OpenWeatherEndpoint openWeatherEndpoint, Coord location) {
         String openweatherApiKey = Optional.ofNullable(System.getenv(OPENWEATHER_ENV))
-                                           .orElseThrow(ApiKeyNotFoundException::new);
+                .orElseThrow(ApiKeyNotFoundException::new);
         String url = "http://api.openweathermap.org/data/2.5/" + openWeatherEndpoint + "?lat=" + location.latitude() + "&lon=" + location.longitude() + "&appid=" + openweatherApiKey;
         return URI.create(url);
     }
