@@ -1,33 +1,126 @@
-# openweather
+# 🌦️ OpenWeather Client
 
-App to query https://openweathermap.org/ for Weather Data.
+A lightweight Spring Boot application that queries the [OpenWeather API](https://openweathermap.org/) for current and
+forecast weather data, maps the response to an internal data model, and exposes it via REST endpoints.
 
-## Uses
+---
 
-- Java 25
-- SpringBoot 3.5.6
-- Java's HttpClient for the Request
-- Google Gson for JSON conversion
+## 🧰 Technologies
 
-## OpenWeather API Key
+- **Java 25**
+- **Spring Boot 3.5.6**
+- **Java HttpClient** (for HTTP requests)
+- **Google Gson** (for JSON serialization/deserialization)
+- **JUnit 5**, **AssertJ**, **Mockito** (for testing)
 
-A personal key is needed to query the OpenWeather API, you can find the key in your OpenWeather account.
+---
 
-This key has to be in an environment variable named `OPENWEATHER_API_KEY`.
+## 🔑 OpenWeather API Key
 
-- Windows: `setx OPENWEATHER_API_KEY your_api_key`
-- Unix/Linux/MacOS: `export API_KEY="your_api_key"`
+You need a personal API key from your [OpenWeather account](https://home.openweathermap.org/api_keys) to use the
+service.
 
-## Usage
+This key must be provided as an **environment variable** named `OPENWEATHER_API_KEY`.
 
-Start the Application:
+### Windows (PowerShell)
+
+```powershell
+setx OPENWEATHER_API_KEY "your_api_key"
+```
+
+### macOS / Linux
+
+```bash
+export OPENWEATHER_API_KEY="your_api_key"
+```
+
+---
+
+## 🚀 Run the Application
+
+### Start via Maven
 
 ```bash
 ./mvnw spring-boot:run
 ```
 
-Example Request:
+### Or build and run the JAR
 
-http://localhost:8081/api/v1/currentweather?latitude=49.4541&longitude=11.0768
+```bash
+./mvnw clean package
+java -jar target/openweather-0.0.1-SNAPSHOT.jar
+```
 
-http://localhost:8081/api/v1/forecast?latitude=52.5200&longitude=13.4050
+The application will start on  
+👉 **http://localhost:8081**
+
+---
+
+## 🌤️ Example Requests
+
+### Get current weather
+
+```
+GET http://localhost:8081/api/v1/currentweather?latitude=49.4541&longitude=11.0768
+```
+
+### Get 5-day forecast
+
+```
+GET http://localhost:8081/api/v1/forecast?latitude=52.5200&longitude=13.4050
+```
+
+Both endpoints return JSON-mapped weather data based on the internal domain model.
+
+---
+
+## 🧪 Running Tests
+
+Unit tests can be executed via:
+
+```bash
+./mvnw test
+```
+
+Integration tests are excluded from the default Maven lifecycle (see `maven-surefire-plugin` configuration) but can be
+run manually in IntelliJ or with:
+
+```bash
+./mvnw -Dtest=*IntegrationTest test
+```
+
+---
+
+## 🗂️ Project Structure
+
+```
+src
+├── main
+│   ├── java/de/ossi/openweather
+│   │   ├── controller/      → REST controllers
+│   │   ├── json/            → JSON De-/Serializer
+│   │   ├── service/         → Business logic, HTTP requests
+│   │   ├── model/           → Internal data model (mapped from OpenWeather JSON)
+│   │   └── OpenweatherApplication.java → Main entry point
+│   └── resources/
+│       └── application.properties
+└── test
+    └── java/de/ossi/openweather
+        ├── model/
+        ├── WeatherServiceIntegrationTest.java
+        └── WeatherServiceTest.java
+```
+
+---
+
+## 🧩 Future Improvements / TODOs
+
+- [ ] Add support for additional OpenWeather endpoints (e.g. air pollution, UV index)
+- [ ] Implement caching for repeated queries
+
+---
+
+## 📄 License
+
+This project is distributed under the MIT License.  
+See [LICENSE](LICENSE) for more details.

@@ -1,4 +1,4 @@
-package de.ossi.openweather;
+package de.ossi.openweather.service;
 
 import de.ossi.openweather.model.WeatherConverter;
 import de.ossi.openweather.model.currentweather.Coord;

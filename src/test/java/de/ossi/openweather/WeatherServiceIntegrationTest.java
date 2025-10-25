@@ -4,6 +4,7 @@ import de.ossi.openweather.model.currentweather.Coord;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.forecast.City;
 import de.ossi.openweather.model.forecast.Forecast;
+import de.ossi.openweather.service.WeatherService;
 import org.assertj.core.data.Offset;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;

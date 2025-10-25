@@ -1,9 +1,10 @@
-package de.ossi.openweather;
+package de.ossi.openweather.controller;
 
 
 import de.ossi.openweather.model.currentweather.Coord;
 import de.ossi.openweather.model.currentweather.CurrentWeather;
 import de.ossi.openweather.model.forecast.Forecast;
+import de.ossi.openweather.service.WeatherService;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
@@ -17,7 +18,9 @@ public class WeatherController {
 
     private final WeatherService weatherService;
 
-    public WeatherController(WeatherService weatherService) {this.weatherService = weatherService;}
+    public WeatherController(WeatherService weatherService) {
+        this.weatherService = weatherService;
+    }
 
     @GetMapping("/currentweather")
     public CurrentWeather getCurrentWeatherAt(

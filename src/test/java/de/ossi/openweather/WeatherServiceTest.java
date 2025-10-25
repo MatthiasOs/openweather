@@ -2,6 +2,7 @@ package de.ossi.openweather;
 
 import de.ossi.openweather.model.WeatherConverter;
 import de.ossi.openweather.model.currentweather.Coord;
+import de.ossi.openweather.service.WeatherService;
 import org.assertj.core.api.Assertions;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.api.extension.ExtendWith;
@@ -34,8 +35,8 @@ class WeatherServiceTest {
     void whenHttpStatusNotSuccessShouldThrowException(Integer statusCode) throws Exception {
         givenResponse(statusCode);
         Assertions.assertThatIllegalStateException()
-                  .isThrownBy(() -> service.readCurrentWeather(Coord.NUERNBERG))
-                  .withMessageContaining("Status: " + statusCode);
+                .isThrownBy(() -> service.readCurrentWeather(Coord.NUERNBERG))
+                .withMessageContaining("Status: " + statusCode);
     }
 
     @Test
