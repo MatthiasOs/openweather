@@ -8,7 +8,7 @@ forecast weather data, maps the response to an internal data model, and exposes 
 ## 🧰 Technologies
 
 - **Java 25**
-- **Spring Boot 3.5.6**
+- **Spring Boot 4.0.3**
 - **Java HttpClient** (for HTTP requests)
 - **Google Gson** (for JSON serialization/deserialization)
 - **JUnit 5**, **AssertJ**, **Mockito** (for testing)
